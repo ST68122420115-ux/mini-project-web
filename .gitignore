@@ -12,9 +12,5 @@ instance/
 .env
 .vscode/
 
-static/video/
-*.mp4
-*.mov
-
 .DS_Store
 Thumbs.db
