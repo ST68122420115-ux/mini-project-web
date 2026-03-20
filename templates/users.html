@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+<br>
+
+<h3 class="mb-3 text-center" 
+    style="color: white; border: 2px solid white; display: inline-block; padding: 0.25rem 0.75rem; border-radius: 5px;">
+    User List
+</h3>
+
+<br>
+<video id="bgVideo" autoplay muted loop playsinline
+       style="position:fixed; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-2;">
+    <source src="{{ url_for('static', filename='video/V1.mp4') }}" type="video/mp4">
+</video>
+<br>
+<table class="table table-bordered text-center">
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>UID</th>
+        <th>Server</th>
+        <th>Action</th>
+    </tr>
+
+    {% for u in users %}
+    <tr>
+
+        <td>{{ loop.index }}</td>
+        <td>{{ u.username }}</td>
+        <td>{{ u.uid }}</td>
+        <td>{{ u.server }}</td>
+        <td>
+            <a href="/edit_user/{{ u.id }}" class="btn btn-primary btn-sm">Edit</a>
+            <a href="/delete_user/{{ u.id }}" class="btn btn-danger btn-sm"
+               onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+<script>
+    const video = document.getElementById("bgVideo");
+
+    video.addEventListener("loadedmetadata", () => {
+        let savedTime = localStorage.getItem("videoTime");
+        if (savedTime) {
+            video.currentTime = parseFloat(savedTime);
+        }
+    });
+
+    video.addEventListener("timeupdate", () => {
+        localStorage.setItem("videoTime", video.currentTime);
+    });
+</script>
+
+{% endblock %}

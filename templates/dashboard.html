@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<br>
+<div class="d-flex justify-content-between align-items-center mb-3">
+<h3 class="mb-3 text-center" 
+    style="color: white; border: 2px solid white; display: inline-block; padding: 0.25rem 0.75rem; border-radius: 5px;">
+    Character List
+</h3>
+
+<video id="bgVideo" autoplay muted loop playsinline
+       style="position:fixed; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-2;">
+    <source src="{{ url_for('static', filename='video/V2.mp4') }}" type="video/mp4">
+</video>
+    
+    <div>
+        <a href="/add" class="btn btn-success">+ Add Character</a>
+    </div>
+
+</div>
+
+<form method="GET">
+    <input name="q" class="form-control mb-3" placeholder="Search character...">
+</form>
+
+<table class="table table-bordered text-center align-middle">
+<tr>
+<th style="width:240px;">Character</th>
+<th>Name</th>
+<th>Element</th>
+<th>Level</th>
+<th>Constellation</th>
+<th>Region</th>
+<th>Action</th>
+</tr>
+
+
+{% for c in characters %}
+<tr>
+
+<td><img src="{{ c.img }}" style="width:240px; height:120px; object-fit:cover; border-radius:10px;"></td>
+
+<td>{{ c.name }}</td>
+<td>{{ c.element }}</td>
+<td>{{ c.level }}</td>
+<td>{{ c.constellation }}</td>
+<td>{{ c.region }}</td>
+
+<td>
+<a href="/edit/{{ c.character_id }}" class="btn btn-warning btn-sm">Edit</a>
+<a href="/delete/{{ c.character_id }}" class="btn btn-danger btn-sm">Delete</a>
+</td>
+
+</tr>
+{% endfor %}
+</table>
+
+<script>
+    const video = document.getElementById("bgVideo");
+
+    video.addEventListener("loadedmetadata", () => {
+        let savedTime = localStorage.getItem("videoTime");
+        if (savedTime) {
+            video.currentTime = parseFloat(savedTime);
+        }
+    });
+
+    video.addEventListener("timeupdate", () => {
+        localStorage.setItem("videoTime", video.currentTime);
+    });
+</script>
+
+{% endblock %}
+

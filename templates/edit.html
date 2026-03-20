@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="d-flex justify-content-center align-items-center" style="height:100vh;">
+
+<video id="bgVideo" autoplay muted loop playsinline
+       style="position:fixed; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-2;">
+    <source src="{{ url_for('static', filename='video/V2.mp4') }}" type="video/mp4">
+</video>
+
+    <div class="card p-4 shadow" style="width:450px;">
+
+        <h3 class="text-center mb-3">Edit Character</h3>
+        <br>
+
+        <form method="POST">
+
+            <label class="form-label">Character Name</label>
+            <input name="name" class="form-control mb-3" 
+                   value="{{ char.name }}" required>
+
+            <label class="form-label">Element</label>
+            <select name="element" class="form-control mb-3">
+                <option {% if char.element=='Anemo' %}selected{% endif %}>Anemo</option>
+                <option {% if char.element=='Geo' %}selected{% endif %}>Geo</option>
+                <option {% if char.element=='Electro' %}selected{% endif %}>Electro</option>
+                <option {% if char.element=='Dendro' %}selected{% endif %}>Dendro</option>
+                <option {% if char.element=='Hydro' %}selected{% endif %}>Hydro</option>
+                <option {% if char.element=='Pyro' %}selected{% endif %}>Pyro</option>
+                <option {% if char.element=='Cryo' %}selected{% endif %}>Cryo</option>
+            </select>
+
+            <label class="form-label">Level (1 - 100)</label>
+            <input name="level" type="number" class="form-control mb-2" min="1" max="100" step="1" value="{{ char.level }}" required>
+
+            <label class="form-label">Constellation</label>
+            <select name="constellation" class="form-control mb-3">
+                <option {% if char.constellation=='C0' %}selected{% endif %}>C0</option>
+                <option {% if char.constellation=='C1' %}selected{% endif %}>C1</option>
+                <option {% if char.constellation=='C2' %}selected{% endif %}>C2</option>
+                <option {% if char.constellation=='C3' %}selected{% endif %}>C3</option>
+                <option {% if char.constellation=='C4' %}selected{% endif %}>C4</option>
+                <option {% if char.constellation=='C5' %}selected{% endif %}>C5</option>
+                <option {% if char.constellation=='C6' %}selected{% endif %}>C6</option>
+            </select>
+
+            <label class="form-label">Region</label>
+            <select name="region" class="form-control mb-3">
+                <option {% if char.region=='Mondstadt' %}selected{% endif %}>Mondstadt</option>
+                <option {% if char.region=='Liyue' %}selected{% endif %}>Liyue</option>
+                <option {% if char.region=='Inazuma' %}selected{% endif %}>Inazuma</option>
+                <option {% if char.region=='Sumeru' %}selected{% endif %}>Sumeru</option>
+                <option {% if char.region=='Fontaine' %}selected{% endif %}>Fontaine</option>
+                <option {% if char.region=='Natlan' %}selected{% endif %}>Natlan</option>
+                <option {% if char.region=='Snezhnaya' %}selected{% endif %}>Snezhnaya</option>
+                <option {% if char.region=='Nod-Krai' %}selected{% endif %}>Nod-Krai</option>
+            </select>
+
+            <label class="form-label">Image URL</label>
+            <input name="img" class="form-control mb-3" value="{{ char.img }}">
+
+            <br>
+            <button class="btn btn-primary w-100">Update</button>
+
+        </form>
+        <a href="/dashboard" class="btn btn-secondary w-100 mt-2">Back</a>
+
+    </div>
+
+</div>
+
+<script>
+    const video = document.getElementById("bgVideo");
+
+    video.addEventListener("loadedmetadata", () => {
+        let savedTime = localStorage.getItem("videoTime");
+        if (savedTime) {
+            video.currentTime = parseFloat(savedTime);
+        }
+    });
+
+    video.addEventListener("timeupdate", () => {
+        localStorage.setItem("videoTime", video.currentTime);
+    });
+</script>
+
+{% endblock %}

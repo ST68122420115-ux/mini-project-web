@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="d-flex justify-content-center align-items-center" style="height:100vh;">
+
+<video id="bgVideo" autoplay muted loop playsinline
+       style="position:fixed; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-2;">
+    <source src="{{ url_for('static', filename='video/V2.mp4') }}" type="video/mp4">
+</video>
+
+    <div class="card p-4 shadow" style="width:450px;">
+
+        <br>
+        <h3 class="text-center mb-3">Add Character</h3>
+        <br>
+
+        <form method="POST">
+
+            <label class="form-label">Character Name</label>
+            <input name="name" class="form-control mb-3" placeholder="Enter name" required>
+
+            <label class="form-label">Element</label>
+            <select name="element" class="form-control mb-3">
+                <option>Anemo</option>
+                <option>Geo</option>
+                <option>Electro</option>
+                <option>Dendro</option>
+                <option>Hydro</option>
+                <option>Pyro</option>
+                <option>Cryo</option>
+            </select>
+
+            <label class="form-label">Level (1 - 100)</label>
+            <input name="level" type="number" class="form-control mb-2" min="1" max="100" step="1" value="1" required>
+
+            <label class="form-label">Constellation</label>
+            <select name="constellation" class="form-control mb-3">
+                <option>C0</option>
+                <option>C1</option>
+                <option>C2</option>
+                <option>C3</option>
+                <option>C4</option>
+                <option>C5</option>
+                <option>C6</option>
+            </select>
+
+            <label class="form-label">Region</label>
+            <select name="region" class="form-control mb-3">
+                <option>Mondstadt</option>
+                <option>Liyue</option>
+                <option>Inazuma</option>
+                <option>Sumeru</option>
+                <option>Fontaine</option>
+                <option>Natlan</option>
+                <option>Snezhnaya</option>
+                <option>Nod-Krai</option>
+            </select>
+
+            <label class="form-label">Image URL</label>
+            <input name="img" class="form-control mb-3" placeholder="Paste image URL">
+
+            <br>
+
+            <button class="btn btn-success w-100">Add Character</button>
+
+        </form>
+        <a href="/dashboard" class="btn btn-secondary w-100 mt-2">Back</a>
+
+    </div>
+
+</div>
+
+<script>
+    const video = document.getElementById("bgVideo");
+
+    video.addEventListener("loadedmetadata", () => {
+        let savedTime = localStorage.getItem("videoTime");
+        if (savedTime) {
+            video.currentTime = parseFloat(savedTime);
+        }
+    });
+
+    video.addEventListener("timeupdate", () => {
+        localStorage.setItem("videoTime", video.currentTime);
+    });
+</script>
+
+{% endblock %}
